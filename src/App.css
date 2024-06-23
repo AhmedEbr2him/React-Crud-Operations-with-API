@@ -12,7 +12,65 @@ body {
   border-radius: 5px;
   margin: 30px 0;
 
+  table .btn {
+    margin-inline: 5px;
+  }
+  table tbody > tr > td {
+    padding: 0.25rem 0.25rem;
+  }
+}
+.users-list .add-new-user {
+  text-align: right;
+  margin-bottom: 20px;
   .btn {
     margin-inline: 5px;
   }
+  .btn i {
+    padding: 0 5px;
+  }
+}
+
+.user-view .box {
+  padding: 30px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.user-view h1 {
+  margin: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 22px;
+  font-weight: bold;
+}
+.user-view p {
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+
+  span {
+    display: inline-block;
+    min-width: 130px;
+  }
+  span:first-child {
+    color: #666;
+  }
+  span:last-child {
+    color: #333;
+    font-weight: bold;
+  }
+}
+._add-view p {
+  border-bottom: 0;
+
+  span {
+    margin-bottom: 5px;
+  }
+  input::placeholder {
+    font-size: 14px;
+    color: #999;
+  }
+}
+._edit-view button:not(:last-child) {
+  margin-right: 10px;
 }

@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Dialog } from 'primereact/dialog';
 import ViewUser from './_ViewUser';
+import AddUser from './_AddUser';
+import EditUser from './_EditUser';
 
 const Users = () => {
   const [usersList, setUsersList] = useState([]);
-  const [showViewModal, setShowViewModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const getAllUsers = async () => {
     try {
@@ -24,7 +24,9 @@ const Users = () => {
       alert('Unalbe to connect to the server!');
     }
   };
-
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   const actionsTemplate = rowDate => {
     return (
       <>
@@ -37,7 +39,13 @@ const Users = () => {
         >
           <i className='pi pi-eye'></i>
         </button>
-        <button className='btn btn-secondary' onClick={() => console.log(rowDate.id)}>
+        <button
+          className='btn btn-secondary'
+          onClick={() => {
+            setShowEditModal(true);
+            setSelectedUserId(rowDate.id);
+          }}
+        >
           <i className='pi pi-file-edit'></i>
         </button>
         <button className='btn btn-danger' onClick={() => console.log(rowDate.id)}>
@@ -51,9 +59,17 @@ const Users = () => {
       <div className='container'>
         <h1>CRUD Operation</h1>
         <div className='users-list'>
+          <div className='add-new-user'>
+            <button className='btn btn-primary' onClick={() => getAllUsers()}>
+              Refresh
+            </button>
+            <button className='btn btn-success' onClick={() => setShowAddModal(true)}>
+              Add New User <i className='pi pi-plus'></i>
+            </button>
+          </div>
           <DataTable value={usersList}>
+            <Column field='fullname' header='User Name'></Column>
             <Column field='name' header='Name'></Column>
-            <Column field='username' header='User Name'></Column>
             <Column field='email' header='Email'></Column>
             <Column field='phone' header='Phone'></Column>
             <Column field='website' header='Website'></Column>
@@ -62,13 +78,48 @@ const Users = () => {
         </div>
       </div>
 
+      {/*  POPUP VIEW MODEL */}
       <Dialog
         header='View User Data'
         visible={showViewModal}
-        style={{ width: '50vw' }}
+        style={{ width: '70vw' }}
         onHide={() => setShowViewModal(false)}
       >
         <ViewUser userId={selectedUserId} />
+      </Dialog>
+      {/*  POPUP ADD USER MODEL */}
+      <Dialog
+        header='Add New User'
+        visible={showAddModal}
+        style={{ width: '70vw' }}
+        onHide={() => setShowAddModal(false)}
+      >
+        <AddUser
+          setUserAdded={() => {
+            setShowAddModal(false);
+            getAllUsers();
+          }}
+        />
+      </Dialog>
+      {/*  POPUP EDIT USER MODEL */}
+      <Dialog
+        header='Edit User Information'
+        visible={showEditModal}
+        style={{ width: '70vw' }}
+        onHide={() => setShowEditModal(false)}
+      >
+        <EditUser
+          setUserEdited={() => {
+            setShowEditModal(false);
+
+            // REFRESH THE MAIN USERS
+            getAllUsers();
+          }}
+          editModel={() => {
+            setShowEditModal(false);
+          }}
+          userId={selectedUserId}
+        />
       </Dialog>
     </div>
   );
