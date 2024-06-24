@@ -6,6 +6,8 @@ import { Dialog } from 'primereact/dialog';
 import ViewUser from './_ViewUser';
 import AddUser from './_AddUser';
 import EditUser from './_EditUser';
+import { ConfirmDialog } from 'primereact/confirmdialog'; // To use <ConfirmDialog> tag
+import { confirmDialog } from 'primereact/confirmdialog'; // To use confirmDialog method
 
 const Users = () => {
   const [usersList, setUsersList] = useState([]);
@@ -48,19 +50,42 @@ const Users = () => {
         >
           <i className='pi pi-file-edit'></i>
         </button>
-        <button className='btn btn-danger' onClick={() => console.log(rowDate.id)}>
+        <button className='btn btn-danger' onClick={() => deleteUserConfirmation(rowDate.id)}>
           <i className='pi pi-trash'></i>
         </button>
       </>
     );
+  };
+
+  /* CONFIRM POPUP */
+  const deleteUserConfirmation = userId => {
+    confirmDialog({
+      message: 'Are you sure you want to delete this user?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-trash',
+      accept: () => deleteUser(userId),
+      // reject: () => rejectFunc(),
+    });
+  };
+
+  const deleteUser = async userId => {
+    try {
+      const response = await axios.delete(`http://localhost:4000/users/${userId}`);
+      if (response) {
+        // DELETE USER AND REFRSH THE USERS LIST
+        getAllUsers();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className='users-page'>
       <div className='container'>
         <h1>CRUD Operation</h1>
         <div className='users-list'>
-          <div className='add-new-user'>
-            <button className='btn btn-primary' onClick={() => getAllUsers()}>
+          <div className='top-btn-group'>
+            <button className='btn btn-outline-warning' onClick={() => getAllUsers()}>
               Refresh
             </button>
             <button className='btn btn-success' onClick={() => setShowAddModal(true)}>
@@ -68,8 +93,8 @@ const Users = () => {
             </button>
           </div>
           <DataTable value={usersList}>
-            <Column field='fullname' header='User Name'></Column>
             <Column field='name' header='Name'></Column>
+            <Column field='fullname' header='Full Name'></Column>
             <Column field='email' header='Email'></Column>
             <Column field='phone' header='Phone'></Column>
             <Column field='website' header='Website'></Column>
@@ -121,6 +146,8 @@ const Users = () => {
           userId={selectedUserId}
         />
       </Dialog>
+
+      <ConfirmDialog />
     </div>
   );
 };

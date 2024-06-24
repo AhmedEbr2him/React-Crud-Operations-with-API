@@ -19,7 +19,7 @@ body {
     padding: 0.25rem 0.25rem;
   }
 }
-.users-list .add-new-user {
+.users-list .top-btn-group {
   text-align: right;
   margin-bottom: 20px;
   .btn {
@@ -55,7 +55,7 @@ body {
   span:first-child {
     color: #666;
   }
-  span:last-child {
+  span:nth-child(2) {
     color: #333;
     font-weight: bold;
   }
@@ -73,4 +73,9 @@ body {
 }
 ._edit-view button:not(:last-child) {
   margin-right: 10px;
+}
+.error {
+  font-size: 13px;
+  color: red;
+  font-weight: 500;
 }

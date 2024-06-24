@@ -20,9 +20,9 @@ const initialUserInfo = {
     bs: '',
   },
 };
-
 const AddUser = props => {
   const [userInfo, setUserInfo] = useState(initialUserInfo);
+  const [error, setError] = useState({});
 
   const addNewUser = async () => {
     try {
@@ -33,10 +33,54 @@ const AddUser = props => {
     } catch (e) {
       console.log(e);
     }
+    validation();
   };
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // VALIDATION
+  const validation = () => {
+    const newErrors = {};
+
+    if (!userInfo.name) {
+      newErrors.name = '* Name is required!';
+    }
+    if (!userInfo.fullname) {
+      newErrors.fullname = '* Full name is required!';
+    }
+    if (!userInfo.email) {
+      newErrors.email = '* Email address is required!';
+    }
+    if (!userInfo.phone) {
+      newErrors.phone = '* Phone number is required!';
+    }
+    if (!userInfo.website) {
+      newErrors.website = '* Website is required!';
+    }
+    if (!userInfo.address.city) {
+      newErrors.city = '* City is required!';
+    }
+    if (!userInfo.address.street) {
+      newErrors.street = '* Street is required!';
+    }
+    if (!userInfo.address.suite) {
+      newErrors.suite = '* Suite is required!';
+    }
+    if (!userInfo.address.zipcode) {
+      newErrors.zipcode = '* Zip code is required!';
+    }
+    if (!userInfo.company.name) {
+      newErrors.companyName = '* Company name is required!';
+    }
+    if (!userInfo.company.catchPhrase) {
+      newErrors.companyCatchPhrase = '* Catch phrase name is required!';
+    }
+    if (!userInfo.company.bs) {
+      newErrors.companyBs = '* Bs is required!';
+    }
+    setError(newErrors);
+  };
 
   return (
     <div className='user-view _add-view'>
@@ -54,6 +98,7 @@ const AddUser = props => {
                 value={userInfo.name}
                 onChange={e => setUserInfo({ ...userInfo, name: e.target.value })}
               />
+              {error && <span className='error'> {error.name}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -67,6 +112,7 @@ const AddUser = props => {
                 value={userInfo.fullname}
                 onChange={e => setUserInfo({ ...userInfo, fullname: e.target.value })}
               />
+              {error && <span className='error'> {error.fullname}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -80,6 +126,7 @@ const AddUser = props => {
                 value={userInfo.email}
                 onChange={e => setUserInfo({ ...userInfo, email: e.target.value })}
               />
+              {error && <span className='error'> {error.email}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -93,6 +140,7 @@ const AddUser = props => {
                 value={userInfo.phone}
                 onChange={e => setUserInfo({ ...userInfo, phone: e.target.value })}
               />
+              {error && <span className='error'> {error.phone}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -106,6 +154,7 @@ const AddUser = props => {
                 value={userInfo.website}
                 onChange={e => setUserInfo({ ...userInfo, website: e.target.value })}
               />
+              {error && <span className='error'> {error.website}</span>}
             </p>
           </div>
         </div>
@@ -133,6 +182,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.city}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -154,6 +204,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.street}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -175,6 +226,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.suite}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -196,6 +248,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.zipcode}</span>}
             </p>
           </div>
         </div>
@@ -222,6 +275,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.companyName}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -243,6 +297,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.companyCatchPhrase}</span>}
             </p>
           </div>
           <div className='col-sm-12 col-md-6'>
@@ -264,6 +319,7 @@ const AddUser = props => {
                   })
                 }
               />
+              {error && <span className='error'> {error.companyBs}</span>}
             </p>
           </div>
         </div>

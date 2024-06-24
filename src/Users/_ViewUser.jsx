@@ -32,7 +32,9 @@ const ViewUser = props => {
       if (response) {
         setUserInf(response.data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     fetchUserData();
